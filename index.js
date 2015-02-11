@@ -1,5 +1,5 @@
 /* jshint evil: true */
-var esc = 'function e(s){' +
+var esc = 'function __esc(s){' +
   'if (!s)return "";' +
   'return (""+s)' +
   '.replace(/&/g,"&amp;")' +
@@ -8,7 +8,7 @@ var esc = 'function e(s){' +
   '.replace(/>/g,"&gt;")' +
   '}';
 
-var each = 'function each(o,fn){' +
+var each = 'function __each(o,fn){' +
   'o.forEach?o.forEach(fn):fn(o)' +
   '}';
 
@@ -18,9 +18,9 @@ module.exports = function (tpl) {
   var m;
 
   function getVal(expr) {
-    return 'try{val=' + expr + '}' +
+    return 'try{__val=' + expr + '}' +
       'catch(e){' +
-      'val=void 0;' +
+      '__val=void 0;' +
       // 'if (!(e instanceof ReferenceError))throw e' +
       '}';
   }
@@ -28,7 +28,7 @@ module.exports = function (tpl) {
   function $text(tpl) {
     m = tpl.match(/^([\s\S]+?)(\{\{|$)/);
     if (m) {
-      src += 'out+=' + JSON.stringify(m[1]) + ';';
+      src += '__out+=' + JSON.stringify(m[1]) + ';';
       return tpl.substr(m[1].length) || 1;
     }
   }
@@ -38,7 +38,7 @@ module.exports = function (tpl) {
     if (m) {
       src +=
         getVal(m[1]) +
-        'out+=e(val||"");';
+        '__out+=__esc(__val||"");';
       return tpl.substr(m[0].length) || 1;
     }
   }
@@ -49,7 +49,7 @@ module.exports = function (tpl) {
     if (m) {
       src +=
         getVal(m[1]) +
-        'out+=val||"";';
+        '__out+=__val||"";';
       return tpl.substr(m[0].length) || 1;
     }
   }
@@ -59,7 +59,7 @@ module.exports = function (tpl) {
     if (m) {
       src +=
         getVal(m[1]) +
-        'if(val){each(val,function(val){with(val){';
+        'if(__val){__each(__val,function(__val){with(__val){';
       closers.push('}})}');
       return tpl.substr(m[0].length) || 1;
     }
@@ -70,7 +70,7 @@ module.exports = function (tpl) {
     if (m) {
       src +=
         getVal(m[1]) +
-        'if (!val||val.length===0){if (1){';
+        'if (!__val||__val.length===0){if (1){';
       closers.push('}}');
       return tpl.substr(m[0].length) || 1;
     }
@@ -92,7 +92,7 @@ module.exports = function (tpl) {
   function $implicit(tpl) {
     m = tpl.match(/^\{\{\s*\.\s*\}\}/);
     if (m) {
-      src += 'out+=val||"";';
+      src += '__out+=__val||"";';
       return tpl.substr(m[0].length);
     }
   }
@@ -104,6 +104,6 @@ module.exports = function (tpl) {
       $raw(tpl) || $tag(tpl) || $text(tpl);
   }
 
-  src = 'with(data||{}){var self,val,out="";' + src + 'return out;' + esc + each + '}';
+  src = 'with(data||{}){var __val,__out="";' + src + 'return __out;' + esc + each + '}';
   return new Function('data', src);
 };
