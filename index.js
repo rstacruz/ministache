@@ -12,17 +12,10 @@ var each = 'function each(o,fn){' +
   'o.forEach?o.forEach(fn):fn(o)' +
   '}';
 
-var tryLeft = 'try{';
-var tryRight = '}catch(e){}';
-
 module.exports = function (tpl) {
   var src = '';
   var closers = [];
   var m;
-
-  function katch(code) {
-    return tryLeft + code + tryRight;
-  }
 
   function getVal(expr) {
     return 'try{val=' + expr + '}' +
