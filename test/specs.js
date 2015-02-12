@@ -21,7 +21,7 @@ function eachSpec (fn) {
 describe('specs', function () {
   eachSpec(function (name, spec) {
     it(name + ': ' + spec.name, function () {
-      var fn = tpl(spec.template);
+      var fn = tpl(spec.template, spec.partials);
       var out = fn(spec.data);
       if (out !== spec.expected) {
         console.log(spec.name);

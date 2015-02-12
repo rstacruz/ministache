@@ -138,19 +138,19 @@ tests:
     template: " {{^boolean}}NO{{/boolean}}\n {{^boolean}}WAY{{/boolean}}\n"
     expected: " NO\n WAY\n"
 
-  # - name: Standalone Lines
-  #   desc: Standalone lines should be removed from the template.
-  #   data: { boolean: false }
-  #   template: |
-  #     | This Is
-  #     {{^boolean}}
-  #     |
-  #     {{/boolean}}
-  #     | A Line
-  #   expected: |
-  #     | This Is
-  #     |
-  #     | A Line
+  - name: Standalone Lines
+    desc: Standalone lines should be removed from the template.
+    data: { boolean: false }
+    template: |
+      | This Is
+      {{^boolean}}
+      |
+      {{/boolean}}
+      | A Line
+    expected: |
+      | This Is
+      |
+      | A Line
 
   # - name: Standalone Indented Lines
   #   desc: Standalone indented lines should be removed from the template.
