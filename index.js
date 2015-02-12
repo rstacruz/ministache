@@ -31,7 +31,7 @@ module.exports = function (tpl, partials) {
     return 'try{__val=' + expr + '}' +
       'catch(e){' +
       '__val=void 0;' +
-      // 'if (!(e instanceof ReferenceError))throw e' +
+      'if (!(e instanceof ReferenceError)&&!(e instanceof TypeError))throw e' +
       '}';
   }
 
