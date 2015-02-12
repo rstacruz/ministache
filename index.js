@@ -1,4 +1,4 @@
-/* jshint evil: true */
+/* jshint evil: true, boss: true */
 
 module.exports = function (tpl, partials) {
   var src = '', closers = [], m;
@@ -9,7 +9,7 @@ module.exports = function (tpl, partials) {
       $close(tpl) || $raw(tpl) || $interpolate(tpl) || $text(tpl);
   }
 
-  src = 'with(data||{}){var __val,__out="";' + src + 'return __out;' + esc + each + '}';
+  src = 'with(data||{}){var __val,__out="";'+src+'return __out;'+esc+each+'}';
   return new Function('data', src);
 
   function getVal(expr) {
@@ -21,77 +21,62 @@ module.exports = function (tpl, partials) {
   }
 
   function $text(tpl) {
-    m = tpl.match(/^([\s\S]+?)(\{\{|$)/);
-    if (m) {
+    if (m = tpl.match(/^([\s\S]+?)(\{\{|$)/)) {
       src += '__out+=' + JSON.stringify(m[1]) + ';';
       return tpl.substr(m[1].length) || 1;
     }
   }
 
   function $interpolate(tpl) {
-    m = _tag(tpl);
-    if (m) {
-      src +=
-        getVal(m[1]) +
-        '__out+=__esc(__val||"");';
+    if (m = getTag(tpl)) {
+      src += getVal(m[1]) + '__out+=__esc(__val||"");';
       return tpl.substr(m[0].length) || 1;
     }
   }
 
   function $raw(tpl) {
-    m = _tag(tpl, null, true) || _tag(tpl, '&');
-    if (m) {
-      src +=
-        getVal(m[1]) +
-        '__out+=__val||"";';
+    if (m = (getTag(tpl, null, true) || getTag(tpl, '&'))) {
+      src += getVal(m[1]) + '__out+=__val||"";';
       return tpl.substr(m[0].length) || 1;
     }
   }
 
   function $context(tpl) {
-    m = _tag(tpl, '#');
-    if (m) {
-      src +=
-        getVal(m[1]) +
-        'if(__val){__each(__val,function(__val){with(__val){';
+    if (m = getTag(tpl, '#')) {
+      src += getVal(m[1])+'if(__val){__each(__val,function(__val){with(__val){';
       closers.push('}})}');
       return tpl.substr(m[0].length) || 1;
     }
   }
 
   function $negative(tpl) {
-    m = _tag(tpl, '\\^');
-    if (m) {
-      src +=
-        getVal(m[1]) +
-        'if (!__val||__val.length===0){if (1){';
-      closers.push('}}');
+    if (m = getTag(tpl, '\\^')) {
+      src += getVal(m[1]) + 'if (!__val||__val.length===0){';
+      closers.push('}');
       return tpl.substr(m[0].length) || 1;
     }
   }
 
   function $close(tpl) {
-    m = _tag(tpl, '/');
-    if (m) {
+    if (m = getTag(tpl, '/')) {
       src += closers.pop();
       return tpl.substr(m[0].length) || 1;
     }
   }
 
   function $comment(tpl) {
-    m = _tag(tpl, '(?:!|>)');
-    if (m) return tpl.substr(m[0].length) || 1;
+    if (m = getTag(tpl, '(?:!|>)'))
+      return tpl.substr(m[0].length) || 1;
   }
 
   function $implicit(tpl) {
-    m = tpl.match(/^\{\{\s*\.\s*\}\}/);
-    if (m) {
+    if (m = tpl.match(/^\{\{\s*\.\s*\}\}/)) {
       src += '__out+=__val||"";';
       return tpl.substr(m[0].length) || 1;
     }
   }
 
-  function _tag(tpl, prefix, triple) {
+  function getTag(tpl, prefix, triple) {
     var src = (prefix || '') + '([\\s\\S]*?)';
     src = triple ?
       ('^\\{\\{\\{' + src + '\\}\\}\\}') :
