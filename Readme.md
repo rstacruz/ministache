@@ -2,7 +2,7 @@
 
 **Mustache templating with a focus on a slim size (~500 bytes gzipped).**
 Useful for embedding into frontend libraries. ministache complies with *most*
-mustache [specs] with a [few](#whynot) exceptions.
+mustache [specs] with a [few](#why-not) exceptions.
 
 [![Status](http://img.shields.io/travis/rstacruz/REPO/master.svg?style=flat)](https://travis-ci.org/rstacruz/REPO "See test builds")
 
