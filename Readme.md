@@ -40,3 +40,11 @@ There are some mustache features that were dropped to achieve its minimal size.
 * Does not support whitespace collapsing. Not really an issue much for HTML, anyway.
 * Does not support partials.
 * Does not support set-delimiters (`{{=<% %>=}}`).
+
+<br>
+
+## Also see
+
+* [tj/minstache](https://github.com/visionmedia/minstache) (`min` and not `mini`), which isn't spec compliant and doesn't support contexts (`{{#user}}{{name}}{{/}}`)
+
+* [janl/mustache.js](https://github.com/janl/mustache.js), a fast and feature-filled solution that supports partials and such
