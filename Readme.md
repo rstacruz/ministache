@@ -1,15 +1,42 @@
 # ministache
 
+Mustache templating solution with a focus on a slim size and fast runtime.
 Semi-spec compliant mustache implementation.
 
-Why?
+<br>
 
-* Only <1kb gzipped, so great for embedding in libraries
-* Compliant with almost all mustache specs*
-* Fast
+## API
 
-Why not?
+```js
+var compile = require('ministache');
+var template = "Greetings, {{name}}";
 
-* Does not support whitespace collapsing
-* Does not support partials
-* Does not support set-delimiters
+var tpl = compile(template);
+  
+tpl({ name: "John Constantine" })
+=> "Greetings, John Constantine"
+```
+
+See the [mustache(5)](http://mustache.github.io/mustache.5.html) man page for
+an overview of features.
+
+<br>
+
+## Why?
+
+ministache is ideal for use in embedding in other redistributable frontend
+libraries.
+
+* __Small:__ Only <1kb gzipped.
+* __Standard:__ Compliant with almost all mustache specs (see below)
+
+<br>
+
+## Why not?
+
+There are some mustache features that were dropped to achieve its minimal size.
+
+* It's only about 40% the speed of mustache.js.
+* Does not support whitespace collapsing. Not really an issue much for HTML, anyway.
+* Does not support partials.
+* Does not support set-delimiters (`{{=<% %>=}}`).

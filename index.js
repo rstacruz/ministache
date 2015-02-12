@@ -1,4 +1,5 @@
 /* jshint evil: true */
+
 var esc = 'function __esc(s){' +
   'if (!s)return "";' +
   'return (""+s)' +
