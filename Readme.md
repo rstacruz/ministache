@@ -4,7 +4,7 @@
 Useful for embedding into frontend libraries. ministache complies with *most*
 mustache [specs] with a [few](#why-not) exceptions.
 
-[![Status](http://img.shields.io/travis/rstacruz/REPO/master.svg?style=flat)](https://travis-ci.org/rstacruz/REPO "See test builds")
+[![Status](http://img.shields.io/travis/rstacruz/ministache/master.svg?style=flat)](https://travis-ci.org/rstacruz/ministache "See test builds")
 
 <br>
 
