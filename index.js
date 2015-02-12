@@ -80,14 +80,14 @@ module.exports = function (tpl, partials) {
 
   function $comment(tpl) {
     m = _tag(tpl, '(?:!|>)');
-    if (m) return tpl.substr(m[0].length);
+    if (m) return tpl.substr(m[0].length) || 1;
   }
 
   function $implicit(tpl) {
     m = tpl.match(/^\{\{\s*\.\s*\}\}/);
     if (m) {
       src += '__out+=__val||"";';
-      return tpl.substr(m[0].length);
+      return tpl.substr(m[0].length) || 1;
     }
   }
 
