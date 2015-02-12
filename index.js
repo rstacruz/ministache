@@ -1,28 +1,12 @@
 /* jshint evil: true */
 
-var esc = 'function __esc(s){' +
-  'if (!s)return "";' +
-  'return (""+s)' +
-  '.replace(/&/g,"&amp;")' +
-  '.replace(/"/g,"&quot;")' +
-  '.replace(/</g,"&lt;")' +
-  '.replace(/>/g,"&gt;")' +
-  '}';
-
-var each = 'function __each(o,fn){' +
-  'o.forEach?o.forEach(fn):fn(o)' +
-  '}';
-
 module.exports = function (tpl, partials) {
-  var src = '';
-  var closers = [];
-  var m;
+  var src = '', closers = [], m;
 
   while (typeof tpl === 'string') {
     tpl =
-      $implicit(tpl) ||
-      $comment(tpl) || $context(tpl) || $negative(tpl) || $close(tpl) ||
-      $raw(tpl) || $interpolate(tpl) || $text(tpl);
+      $implicit(tpl) || $comment(tpl) || $context(tpl) || $negative(tpl) ||
+      $close(tpl) || $raw(tpl) || $interpolate(tpl) || $text(tpl);
   }
 
   src = 'with(data||{}){var __val,__out="";' + src + 'return __out;' + esc + each + '}';
@@ -115,3 +99,16 @@ module.exports = function (tpl, partials) {
     return tpl.match(new RegExp(src));
   }
 };
+
+var esc = 'function __esc(s){' +
+  'if (!s)return "";' +
+  'return (""+s)' +
+  '.replace(/&/g,"&amp;")' +
+  '.replace(/"/g,"&quot;")' +
+  '.replace(/</g,"&lt;")' +
+  '.replace(/>/g,"&gt;")' +
+  '}';
+
+var each = 'function __each(o,fn){' +
+  'o.forEach?o.forEach(fn):fn(o)' +
+  '}';
