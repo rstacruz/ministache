@@ -20,9 +20,9 @@ module.exports = function (tpl, partials) {
 
   while (typeof tpl === 'string') {
     tpl =
-      $partial(tpl) || $implicit(tpl) ||
+      $implicit(tpl) ||
       $comment(tpl) || $context(tpl) || $negative(tpl) || $close(tpl) ||
-      $raw(tpl) || $tag(tpl) || $text(tpl);
+      $raw(tpl) || $interpolate(tpl) || $text(tpl);
   }
 
   src = 'with(data||{}){var __val,__out="";' + src + 'return __out;' + esc + each + '}';
@@ -44,8 +44,8 @@ module.exports = function (tpl, partials) {
     }
   }
 
-  function $tag(tpl) {
-    m = tpl.match(/^\{\{([^\^\#\&\/][\s\S]*?)\}\}/);
+  function $interpolate(tpl) {
+    m = _tag(tpl);
     if (m) {
       src +=
         getVal(m[1]) +
@@ -55,8 +55,7 @@ module.exports = function (tpl, partials) {
   }
 
   function $raw(tpl) {
-    m = tpl.match(/^\{\{\{([\s\S]+?)\}\}\}/) ||
-      tpl.match(/^\{\{&([\s\S]+?)\}\}/);
+    m = _tag(tpl, null, true) || _tag(tpl, '&');
     if (m) {
       src +=
         getVal(m[1]) +
@@ -66,7 +65,7 @@ module.exports = function (tpl, partials) {
   }
 
   function $context(tpl) {
-    m = tpl.match(/^\{\{#([\s\S]+?)\}\}/);
+    m = _tag(tpl, '#');
     if (m) {
       src +=
         getVal(m[1]) +
@@ -77,7 +76,7 @@ module.exports = function (tpl, partials) {
   }
 
   function $negative(tpl) {
-    m = tpl.match(/^\{\{\^([\s\S]+?)\}\}/);
+    m = _tag(tpl, '\\^');
     if (m) {
       src +=
         getVal(m[1]) +
@@ -88,22 +87,15 @@ module.exports = function (tpl, partials) {
   }
 
   function $close(tpl) {
-    m = tpl.match(/^\{\{\/[\s\S]*?\}\}/);
+    m = _tag(tpl, '/');
     if (m) {
       src += closers.pop();
       return tpl.substr(m[0].length) || 1;
     }
   }
 
-  function $partial(tpl) {
-    m = tpl.match(/^\{\{>\s*([\s\S]*?)\s*\}\}/);
-    if (m) {
-      return tpl.substr(m[0].length);
-    }
-  }
-
   function $comment(tpl) {
-    m = tpl.match(/^\{\{![\s\S]*?\}\}/);
+    m = _tag(tpl, '(?:!|>)');
     if (m) return tpl.substr(m[0].length);
   }
 
@@ -113,5 +105,13 @@ module.exports = function (tpl, partials) {
       src += '__out+=__val||"";';
       return tpl.substr(m[0].length);
     }
+  }
+
+  function _tag(tpl, prefix, triple) {
+    var src = (prefix || '') + '([\\s\\S]*?)';
+    src = triple ?
+      ('^\\{\\{\\{' + src + '\\}\\}\\}') :
+      ('^\\{\\{' + src + '\\}\\}');
+    return tpl.match(new RegExp(src));
   }
 };
