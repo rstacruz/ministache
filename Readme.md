@@ -4,9 +4,14 @@
 Useful for embedding into frontend libraries. ministache complies with *most*
 mustache [specs] with a [few](#whynot) exceptions.
 
+[![Status](http://img.shields.io/travis/rstacruz/REPO/master.svg?style=flat)](https://travis-ci.org/rstacruz/REPO "See test builds")
+
 <br>
 
 ## API
+
+See the [mustache(5)](http://mustache.github.io/mustache.5.html) man page for
+an overview of features.
 
 ```js
 var compile = require('ministache');
@@ -18,8 +23,8 @@ tpl({ name: "John Constantine" })
 => "Greetings, John Constantine"
 ```
 
-See the [mustache(5)](http://mustache.github.io/mustache.5.html) man page for
-an overview of features.
+[![npm version](http://img.shields.io/npm/v/ministache.svg?style=flat)](https://npmjs.org/package/ministache "View this project on npm")
+&nbsp; Available via *npm install ministache*
 
 <br>
 
