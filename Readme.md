@@ -1,7 +1,8 @@
 # ministache
 
-Mustache templating solution with a focus on a slim size and fast runtime.
-Semi-spec compliant mustache implementation.
+**Mustache templating with a focus on a slim size (~500 bytes gzipped).**
+Useful for embedding into frontend libraries. ministache complies with *most*
+mustache [specs] with a [few](#whynot) exceptions.
 
 <br>
 
@@ -48,3 +49,19 @@ There are some mustache features that were dropped to achieve its minimal size.
 * [tj/minstache](https://github.com/visionmedia/minstache) (`min` and not `mini`), which isn't spec compliant and doesn't support contexts (`{{#user}}{{name}}{{/}}`)
 
 * [janl/mustache.js](https://github.com/janl/mustache.js), a fast and feature-filled solution that supports partials and such
+
+[specs]: https://github.com/mustache/spec
+
+<br>
+
+## Thanks
+
+**ministache** © 2015+, Rico Sta. Cruz. Released under the [MIT] License.<br>
+Authored and maintained by Rico Sta. Cruz with help from contributors ([list][contributors]).
+
+> [ricostacruz.com](http://ricostacruz.com) &nbsp;&middot;&nbsp;
+> GitHub [@rstacruz](https://github.com/rstacruz) &nbsp;&middot;&nbsp;
+> Twitter [@rstacruz](https://twitter.com/rstacruz)
+
+[MIT]: http://mit-license.org/
+[contributors]: http://github.com/rstacruz/ministache/contributors
