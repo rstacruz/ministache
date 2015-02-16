@@ -1,6 +1,6 @@
 {
   "name": "ministache",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Mustache templating with a focus on a slim size",
   "main": "index.js",
   "keywords": [
