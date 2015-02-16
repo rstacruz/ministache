@@ -1,7 +1,7 @@
 {
   "name": "ministache",
   "version": "0.1.1",
-  "description": "",
+  "description": "Mustache templating with a focus on a slim size",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -15,5 +15,16 @@
     "mocha-clean": "^0.4.0",
     "mustache": "^1.0.0",
     "uglify-js": "^2.4.16"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/rstacruz/ministache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rstacruz/ministache/issues"
+  },
+  "homepage": "https://github.com/rstacruz/ministache"
 }
