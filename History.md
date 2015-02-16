@@ -1,3 +1,7 @@
+## v0.1.3 - Feb 16, 2015
+
+Fix Firefox compatibility.
+
 ## v0.1.2 - Feb 16, 2015
 
 Update package.json with `repository` and `keywords`. No functionality changes.
