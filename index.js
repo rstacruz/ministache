@@ -9,7 +9,7 @@ module.exports = function (tpl, partials) {
       $close(tpl) || $raw(tpl) || $interpolate(tpl) || $text(tpl);
   }
 
-  src = 'with(data||{}){var __val,__out="";'+src+'return __out;'+esc+each+'}';
+  src = 'with(data||{}){var __val,__out="";'+src+'return __out;}'+esc+each;
   return new Function('data', src);
 
   function getVal(expr) {
